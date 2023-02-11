@@ -19,15 +19,29 @@ export default class ArticleList extends Component{
             return <div>Loading...</div>
         }
         return (
-            <ul>
-                {
-                    articles.map((article) => {
-                        return (
-                            <Article article={article} key={article.objectID}/>
-                        )
-                    })
+            <div>
+            <form onSubmit={
+                async (event) => {
+                    event.preventDefault()
+                    const articles = await getArticlesByQuery(event.currentTarget.elements[0].value)
+                    this.setState({articles})
                 }
-            </ul>
+
+            }>
+                <input placeholder="Ведіть запит.."></input>
+                <button>Пошук</button>
+                </form>
+                <ul>
+                    {
+                        articles.map((article) => {
+                            return (
+                                <Article article={article} key={article.objectID}/>
+                            )
+                        })
+                    }
+                </ul>   
+            </div>
+
         )
     }
 }
